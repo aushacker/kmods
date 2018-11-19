@@ -12,7 +12,7 @@ MODULE_DEVICE_TABLE(pci, ids);
 
 static int my_pci1_probe(struct pci_dev *dev, const struct pci_device_id *id)
 {
-	if (pci_endable_device(dev)) {
+	if (pci_enable_device(dev)) {
 		dev_err(&dev->dev, "can't enable PCI device\n");
 		return -ENODEV;
 	}
