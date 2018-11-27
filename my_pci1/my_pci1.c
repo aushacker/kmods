@@ -2,7 +2,7 @@
 #include <linux/module.h>
 #include <linux/pci.h>
 
-MODULE_LICENSE("MIT");
+MODULE_LICENSE("GPL");
 
 static struct pci_device_id ids[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_XILINX, 0x0007), },
@@ -15,6 +15,10 @@ static int my_pci1_probe(struct pci_dev *dev, const struct pci_device_id *id)
 	if (pci_enable_device(dev)) {
 		dev_err(&dev->dev, "can't enable PCI device\n");
 		return -ENODEV;
+	}
+
+	if (pci_request_region_exclusive(dev, PCI_BASE_ADDRESS_0, "my_pci1")) {
+		return -1;
 	}
 
 	return 0;
